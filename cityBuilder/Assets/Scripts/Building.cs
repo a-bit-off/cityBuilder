@@ -14,6 +14,7 @@ public class Building : MonoBehaviour
     }
     public void SetTransparent(bool available)
     {
+        GetScale();
         if (available)
         {
             MainRender.material.color = Color.green;
@@ -42,5 +43,12 @@ public class Building : MonoBehaviour
                 Gizmos.DrawCube(transform.position + new Vector3(x, 0, y), new Vector3(1, .1f, 1));
             }
         }
+    }
+
+    public int GetScale()
+    {
+        GameObject cube = gameObject.transform.GetChild(0).gameObject;
+        return (int)cube.transform.lossyScale.x;
+
     }
 }

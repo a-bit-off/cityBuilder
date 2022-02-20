@@ -107,3 +107,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc69411c39f3743a1b037d05eefec3ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridSpawnn: {fileID: 0}

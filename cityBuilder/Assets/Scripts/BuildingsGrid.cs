@@ -49,7 +49,7 @@ public class BuildingsGrid : MonoBehaviour
                 if (y < 0 || y > GridSize.y - flyingBuilding.Size.y) available = false;
                 
                 if (available && IsPlaceTaken(x, y)) available = false;
-                if (gridSpawnn.IsPositionEmpty(new Vector3(x, 0, y))) available = false;
+                if (gridSpawnn.IsPositionEmpty(new Vector3(x, 0, y), flyingBuilding.GetScale())) available = false;
 
 
                 flyingBuilding.transform.position = new Vector3(x, 0, y);
