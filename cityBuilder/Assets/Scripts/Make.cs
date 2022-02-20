@@ -10,46 +10,78 @@ public class Make : MonoBehaviour
     private Vector3 MakePosition;
     private bool flag = false;
     private bool flagInfo = false;
+    private RaycastHit hitDestroy;
+    int b = 0;
 
     public Text textScale;
     public Button buttonDelete;
 
-    private void Update()
-    {
+    private Building building;
 
+    private void Start()
+    {
+        textScale.gameObject.SetActive(false);
+        buttonDelete.gameObject.SetActive(false);
+    }
+    private void LateUpdate()
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(Camera.main.gameObject.transform.position, transform.forward * 100f, Color.yellow);
 
         RaycastHit[] hits;
         hits = Physics.RaycastAll(ray);
 
-        if (Input.GetMouseButtonDown(0) && flag)
+        if (Input.GetMouseButtonDown(0))
         {
+
+
+            if (flag)
+            {
+                for (int i = 0; i < hits.Length; i++)
+                {
+                    MakePosition = hits[i].collider.transform.position;
+                    if (hits[i].collider.gameObject.tag == "water")
+                    {
+                        Destroy(hits[i].collider.gameObject);
+                        Instantiate(Plane[0], MakePosition, transform.rotation);
+                        gridSpawn.allPlaneWaterPositions.Remove(MakePosition);
+                        gridSpawn.allPlaneSwampPositions.Add(MakePosition);
+
+                    }
+                    else if (hits[i].collider.gameObject.tag == "swamp")
+                    {
+                        Destroy(hits[i].collider.gameObject);
+                        Instantiate(Plane[1], MakePosition, transform.rotation);
+                        gridSpawn.allPlaneSwampPositions.Remove(MakePosition);
+                        gridSpawn.allPlaneSandGrassPositions.Add(MakePosition);
+                    }
+                }
+                flag = false;
+            }
+
+
             for (int i = 0; i < hits.Length; i++)
             {
-                MakePosition = hits[i].collider.transform.position;
-                if (hits[i].collider.gameObject.tag == "water")
+                if (hits[i].collider.gameObject.tag == "cube")
                 {
-                    Destroy(hits[i].collider.gameObject);
-                    Instantiate(Plane[0], MakePosition, transform.rotation);
-                    gridSpawn.allPlaneWaterPositions.Remove(MakePosition);
-                    gridSpawn.allPlaneSwampPositions.Add(MakePosition);
+                    if (b == 0)
+                    {
+                        textScale.gameObject.SetActive(false);
+                        buttonDelete.gameObject.SetActive(false);
+                        b = 1;
+                    }
+                    else if (b == 1)
+                    {
+                        textScale.gameObject.SetActive(true);
+                        buttonDelete.gameObject.SetActive(true);
+                        b = 0;
+                    }
 
-                }
-                else if (hits[i].collider.gameObject.tag == "swamp")
-                {
-                    Destroy(hits[i].collider.gameObject);
-                    Instantiate(Plane[1], MakePosition, transform.rotation);
-                    gridSpawn.allPlaneSwampPositions.Remove(MakePosition);
-                    gridSpawn.allPlaneSandGrassPositions.Add(MakePosition);
+                    int scale = (int)hits[i].collider.gameObject.transform.lossyScale.x;
+                    hitDestroy = hits[i];
+                    textScale.text = "Размер: " + scale + " X " + scale;
                 }
             }
-            flag = false;
-        }
-
-        if (Input.GetMouseButtonDown(0) && flagInfo)
-        {
-            flagInfo = false;
         }
     }
 
@@ -57,8 +89,11 @@ public class Make : MonoBehaviour
     {
         flag = true;
     }
-    public void GetInformation()
+
+    public void DestroyButton()
     {
-        flagInfo = true;
+        Destroy(hitDestroy.collider.gameObject.transform.parent.gameObject);
+        textScale.gameObject.SetActive(false);
+        buttonDelete.gameObject.SetActive(false);
     }
 }

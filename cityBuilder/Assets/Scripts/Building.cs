@@ -49,6 +49,6 @@ public class Building : MonoBehaviour
     {
         GameObject cube = gameObject.transform.GetChild(0).gameObject;
         return (int)cube.transform.lossyScale.x;
-
     }
+
 }
