@@ -7,15 +7,18 @@ public class BuildingsGrid : MonoBehaviour
     private Building[,] grid; //двумерный массив координат зданий
     private Building flyingBuilding;
     private Camera mainCamera;
+    
 
     public GridSpawnn gridSpawnn;
-
+    public Building[] Cubes;
 
     private void Awake()
     {
         grid = new Building[GridSize.x, GridSize.y];
 
         mainCamera = Camera.main;
+        //CubeSpawn();
+
     }
 
     public void StartPlacinngBuilding(Building buildingPrefab)
@@ -89,5 +92,53 @@ public class BuildingsGrid : MonoBehaviour
         flyingBuilding.SetNormal();
         flyingBuilding = null;
     }
+
+    public void InputMenu(int value)
+    {
+        if(value == 0)
+        {
+            StartPlacinngBuilding(Cubes[0]);
+        }
+        if (value == 1)
+        {
+            StartPlacinngBuilding(Cubes[1]);
+        }
+        if (value == 2)
+        {
+            StartPlacinngBuilding(Cubes[2]);
+        }
+    }
+    //public void CubeSpawn()
+    //{
+    //    for (int i = 0; i < 100; i++)
+    //    {
+    //        int size = (int)Random.Range(1, 4);
+    //        //Vector3 pos = gridSpawnn.allPlaneSandGrassPositions[Random.Range(0, gridSpawnn.allPlaneSandGrassPositions.Count + 1)];
+    //        Vector3 pos = new Vector3(Random.Range(0, 101), 0, Random.Range(0, 101));
+    //        // ContainsList(pos, size) && 
+    //        if (!(IsPlaceTaken((int)pos.x, (int)pos.z)))
+    //        {
+    //            flyingBuilding = Instantiate(Cubes[size-1]);
+    //            PlaceFlyinngBuilding((int)pos.x, (int)pos.z);
+    //            Instantiate(Cubes[size - 1], pos, transform.rotation);
+    //        }
+
+    //    }
+    //}
+
+    //private bool ContainsList(Vector3 pos, int size)
+    //{
+    //    for (int x = 0; x < size; x++)
+    //    {
+    //        for (int z = 0; z < size; z++)
+    //        {
+    //            if (gridSpawnn.allPlaneSandGrassPositions.Contains(new Vector3(pos.x + x, pos.y, pos.z + z)) == false)
+    //            {
+    //                return false;
+    //            }
+    //        }
+    //    }
+    //    return true;
+    //}
 
 }
